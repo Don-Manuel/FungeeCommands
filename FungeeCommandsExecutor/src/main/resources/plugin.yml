@@ -1,0 +1,5 @@
+name: FungeeCommandsExecutor
+main: org.openredstone.FungeeCommandsExecutor
+version: 1
+api-version: 1.13
+author: Nickster258

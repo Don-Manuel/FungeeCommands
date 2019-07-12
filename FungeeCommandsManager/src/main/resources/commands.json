@@ -1,0 +1,164 @@
+[
+  {
+    "command": "love",
+    "description": "D'awww",
+    "globalChat": "&d<name> &c&l<3 &d<arg-all>"
+  },
+  {
+    "command": "baa",
+    "description": "Baa like a sheep",
+    "globalChat": "&e<name>&f Baas like a sheep"
+  },
+  {
+    "command": "huzza",
+    "description": "HUZZZAH",
+    "globalChat": "&6<name>&5 yells HUZZA",
+    "run": "suicide"
+  },
+  {
+    "command": "nope",
+    "description": "Nope.avi",
+    "localChat": "Chuck testa"
+  },
+  {
+    "command": "forgive",
+    "description": "I'm sorry",
+    "globalChat": "&6<name>&5 forgives &6<arg-all>"
+  },
+  {
+    "command": "lol",
+    "description": "haha",
+    "globalChat": "&e<name>&6 lol'd"
+  },
+  {
+    "command": "moo",
+    "description": "Moo like a cow",
+    "globalChat": "&e<name>&f Moos like a cow"
+  },
+  {
+    "command": "lemur",
+    "description": "Bark like a lemur",
+    "globalChat": "&e<name>&f Barks and screeches like a lemur"
+  },
+  {
+    "command": "snuggle",
+    "description": "for someone you love",
+    "globalChat": "&d<name> &4&lsnuggled with &d<arg-all>"
+  },
+  {
+    "command": "brains",
+    "description": "Brraaiinnss",
+    "globalChat": "&e<name>&f Brains like a zombie"
+  },
+  {
+    "command": "sss",
+    "description": "Sss like a creeper",
+    "globalChat": "&e<name>&f Sses like a creeper"
+  },
+  {
+    "command": "confuse",
+    "description": "errrrrm",
+    "globalChat": "&e<name>&f has ALL the confusion"
+  },
+  {
+    "command": "waffle",
+    "description": "tasty...",
+    "globalChat": "&eGuess who likes waffles. <name> does!"
+  },
+  {
+    "command": "bark",
+    "description": "Bark like a dog",
+    "globalChat": "&e<name>&f Barks like a dog"
+  },
+  {
+    "command": "hap",
+    "description": "haphap",
+    "globalChat": "&d<name> &5haphaphap'd"
+  },
+  {
+    "command": "hate",
+    "description": "-",
+    "globalChat": "&a<name> &2&lhates &a<arg-all>"
+  },
+  {
+    "command": "massage",
+    "description": "mmmm...",
+    "globalChat": "&d<name> &4massaged &d$0's $1"
+  },
+  {
+    "command": "mistake",
+    "description": "odder",
+    "globalChat": "&4Ohder &6&l<name> &5made a mistake"
+  },
+  {
+    "command": "art",
+    "description": "Dat colour",
+    "globalChat": "&aGreen is &2&lNOT &aa creative colour, <name>..."
+  },
+  {
+    "command": "c",
+    "description": "View format codes",
+    "localChat": "Formatting: &ll&r &mm&r &nn&r &oo&r\nColor: &11 &22 &33 &44 &55 &66 &77 &88 &99 &00 &aa &bb &cc &dd &ee &ff"
+  },
+  {
+    "command": "oink",
+    "description": "Oink like a pig",
+    "globalChat": "&e<name>&f Oinks like a pig"
+  },
+  {
+    "command": "suicide",
+    "description": "Suicide..",
+    "globalChat": "<name>: Good bye Cruel World!",
+    "run": "kill <name>"
+  },
+  {
+    "command": "facepalm",
+    "description": "..No",
+    "globalChat": "&3<name> &9facepalms"
+  },
+  {
+    "command": "cp",
+    "description": "Such lag",
+    "localChat": "OMG, lagggg"
+  },
+  {
+    "command": "cluck",
+    "description": "Cluck like a chicken",
+    "globalChat": "&e<name>&f Clucks like a chicken"
+  },
+  {
+    "command": "rage",
+    "description": "grrrr",
+    "globalChat": "&c&l<name> &c&lrages"
+  },
+  {
+    "command": "hug",
+    "description": "for someone you love",
+    "globalChat": "&d<name> &4&lhugged &d<arg-all>"
+  },
+  {
+    "command": "join",
+    "description": "Fake someone joining the game",
+    "globalChat": "&e<arg-all> joined the game"
+  },
+  {
+    "command": "leave",
+    "description": "Fake someone joining the game",
+    "globalChat": "&e<arg-all> left the game"
+  },
+  {
+    "command": "join-rename",
+    "description": "Fake someone joining the game as a different name",
+    "globalChat": "&e$0 (formerly known as $1) joined the game"
+  },
+  {
+    "command": "keol",
+    "description": "keol",
+    "globalChat": "&e<name>&6 KEOLkeolKEOL'd"
+  },
+  {
+    "command": "rip",
+    "description": "rip",
+    "globalChat": "&c&lRIP <name>!"
+  }
+]

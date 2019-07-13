@@ -1,7 +1,7 @@
 package org.openredstone.executors;
 
 import org.bukkit.plugin.Plugin;
-import org.openredstone.messaging.Message;
+import org.openredstone.messages.ActionMessage;
 
 public class RawExecutor extends Executor {
 
@@ -10,7 +10,7 @@ public class RawExecutor extends Executor {
     }
 
     @Override
-    public void execute(Message message) {
-        plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), String.join(" ", message.getArguments()));
+    public void execute(ActionMessage actionMessage) {
+        plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), String.join(" ", actionMessage.getArguments()));
     }
 }

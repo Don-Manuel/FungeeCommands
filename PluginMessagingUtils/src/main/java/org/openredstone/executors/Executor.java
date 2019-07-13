@@ -1,7 +1,7 @@
 package org.openredstone.executors;
 
 import org.bukkit.plugin.Plugin;
-import org.openredstone.messaging.Message;
+import org.openredstone.messages.ActionMessage;
 
 public abstract class Executor {
 
@@ -11,6 +11,6 @@ public abstract class Executor {
         this.plugin = plugin;
     }
 
-    public abstract void execute(Message message) throws Exception;
+    public abstract void execute(ActionMessage actionMessage) throws Exception;
 
 }

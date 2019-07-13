@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
-import org.openredstone.messaging.Message;
+import org.openredstone.messages.ActionMessage;
 
 public class RenameItemExecutor extends Executor {
 
@@ -14,14 +14,14 @@ public class RenameItemExecutor extends Executor {
     }
 
     @Override
-    public void execute(Message message) throws Exception {
-        Player player = plugin.getServer().getPlayer(message.getUuid());
+    public void execute(ActionMessage actionMessage) throws Exception {
+        Player player = plugin.getServer().getPlayer(actionMessage.getUuid());
 
         if (player == null) {
             throw new Exception("Player not found.");
         }
 
-        if (message.getArguments().length < 1) {
+        if (actionMessage.getArguments().length < 1) {
             throw new Exception("Not enough arguments");
         }
 
@@ -32,7 +32,7 @@ public class RenameItemExecutor extends Executor {
         }
 
         ItemMeta meta = mainHand.getItemMeta();
-        meta.setDisplayName(message.getArguments()[0]);
+        meta.setDisplayName(actionMessage.getArguments()[0]);
         mainHand.setItemMeta(meta);
 
     }

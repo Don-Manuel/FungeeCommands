@@ -1,4 +1,4 @@
-package org.openredstone.messaging;
+package org.openredstone.types;
 
 public enum Action {
     KILL,

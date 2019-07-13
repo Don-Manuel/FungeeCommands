@@ -1,27 +1,20 @@
-package org.openredstone.messaging;
+package org.openredstone.messages;
+
+import org.openredstone.types.Action;
 
 import java.util.Arrays;
 import java.util.UUID;
 
-public class Message {
+public class ActionMessage extends Message {
 
     Action action;
-    UUID uuid;
-    String[] arguments;
 
-    public Message(Action action, UUID uuid, String values) {
+    public ActionMessage(Action action, UUID uuid, String[] arguments) {
+        super(uuid, arguments);
         this.action = action;
-        this.uuid = uuid;
-        this.arguments = values.split(" ");
     }
 
-    public Message(Action action, UUID uuid, String[] values) {
-        this.action = action;
-        this.uuid = uuid;
-        this.arguments = values;
-    }
-
-    public Message(String serializedMessage) throws Exception {
+    public ActionMessage(String serializedMessage) throws Exception {
         String[] raw = serializedMessage.split(":");
 
         if (raw.length < 2) {
@@ -32,7 +25,7 @@ public class Message {
             throw new IllegalArgumentException("Invalid action: " + raw[0]);
         }
 
-        if(!isValidUuid(raw[1])) {
+        if(!isValidUuid()) {
             throw new IllegalArgumentException("Invalid uuid: " + raw[1]);
         }
 
@@ -42,19 +35,13 @@ public class Message {
 
     }
 
+    @Override
     public String getSerializedMessage() {
         String actionString = action.name();
-        String uniqueId = uuid.toString();
-        String arguments = String.join(":", this.arguments);
-        return actionString + ":" + uniqueId + ":" + arguments;
-    }
-
-    private static boolean isValidUuid(String uuid) {
-        return uuid.matches("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}");
+        return actionString + ":" + super.getSerializedMessage();
     }
 
     private static boolean isValidAction(String action) {
-        // TODO: this is now redundant, move try into constructor?
         try {
             Action.valueOf(action);
             return true;
@@ -67,11 +54,4 @@ public class Message {
         return action;
     }
 
-    public UUID getUuid() {
-        return uuid;
-    }
-
-    public String[] getArguments() {
-        return arguments;
-    }
 }

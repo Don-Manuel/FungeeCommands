@@ -1,7 +1,7 @@
 package org.openredstone.executors;
 
 import org.bukkit.plugin.Plugin;
-import org.openredstone.messaging.Message;
+import org.openredstone.messages.ActionMessage;
 
 public class ExecutionHandler {
 
@@ -17,22 +17,22 @@ public class ExecutionHandler {
         initializeExecutors(plugin);
     }
 
-    public void execute(Message message) throws Exception {
-        switch (message.getAction()) {
+    public void execute(ActionMessage actionMessage) throws Exception {
+        switch (actionMessage.getAction()) {
             case KILL:
-                killExecutor.execute(message);
+                killExecutor.execute(actionMessage);
                 return;
             case EXECUTE:
-                rawExecutor.execute(message);
+                rawExecutor.execute(actionMessage);
                 return;
             case RENAME_ITEM:
-                renameItemExecutor.execute(message);
+                renameItemExecutor.execute(actionMessage);
                 return;
             case ADD_POTION_EFFECT:
-                addPotionEffectExecutor.execute(message);
+                addPotionEffectExecutor.execute(actionMessage);
                 return;
             case ADD_ITEM_TO_INVENTORY:
-                addItemToInventoryExecutor.execute(message);
+                addItemToInventoryExecutor.execute(actionMessage);
                 return;
         }
     }

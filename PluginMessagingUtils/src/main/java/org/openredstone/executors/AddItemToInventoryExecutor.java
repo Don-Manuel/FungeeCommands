@@ -33,9 +33,6 @@ public class AddItemToInventoryExecutor extends Executor {
 
     private boolean isValidMaterial(Message message) {
         String materialString = message.getArguments()[0];
-        if (Material.getMaterial(materialString) == null) {
-            return false;
-        }
-        return true;
+        return Material.getMaterial(materialString) != null;
     }
 }

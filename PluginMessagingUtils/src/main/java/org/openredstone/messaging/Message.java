@@ -24,15 +24,15 @@ public class Message {
     public Message(String serializedMessage) throws Exception {
         String[] raw = serializedMessage.split(":");
 
-        if (raw.length<2) {
+        if (raw.length < 2) {
             throw new Exception("Not enough arguments provided in serialized message.");
         }
 
-        if (!isValidAction(raw)) {
+        if (!isValidAction(raw[0])) {
             throw new IllegalArgumentException("Invalid action: " + raw[0]);
         }
 
-        if(!isValidUuid(raw)) {
+        if(!isValidUuid(raw[1])) {
             throw new IllegalArgumentException("Invalid uuid: " + raw[1]);
         }
 
@@ -49,18 +49,18 @@ public class Message {
         return actionString + ":" + uniqueId + ":" + arguments;
     }
 
-    public static boolean isValidUuid(String[] raw) {
-        if (raw[1].matches("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")) {
-            return true;
-        }
-        return false;
+    private static boolean isValidUuid(String uuid) {
+        return uuid.matches("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}");
     }
 
-    public static boolean isValidAction(String[] raw) {
-        if (Action.valueOf(raw[0]) == null) {
+    private static boolean isValidAction(String action) {
+        // TODO: this is now redundant, move try into constructor?
+        try {
+            Action.valueOf(action);
+            return true;
+        } catch (IllegalArgumentException e) {
             return false;
         }
-        return true;
     }
 
     public Action getAction() {

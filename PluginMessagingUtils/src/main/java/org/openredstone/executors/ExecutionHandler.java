@@ -27,6 +27,7 @@ public class ExecutionHandler {
                 return;
             case RENAME_ITEM:
                 renameItemExecutor.execute(message);
+                return;
             case ADD_POTION_EFFECT:
                 addPotionEffectExecutor.execute(message);
                 return;

@@ -160,5 +160,10 @@
     "command": "rip",
     "description": "rip",
     "globalChat": "&c&lRIP <name>!"
+  },
+  {
+    "command": "shrug",
+    "description": "lol idk",
+    "globalChat": "&c<name> &e<arg-all> ¯\\_(ツ)_/¯"
   }
 ]

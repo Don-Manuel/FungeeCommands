@@ -36,7 +36,6 @@ public class FungeeCommandsManager extends Plugin {
         getProxy().getPluginManager().registerCommand(this, new Reload(this));
         getProxy().getPluginManager().registerCommand(this, new Rename());
         getProxy().getPluginManager().registerCommand(this, new Slap());
-        getProxy().getPluginManager().registerCommand(this, new Shrug());
         getProxy().getPluginManager().registerCommand(this, new Version());
 
         proxy.registerChannel(channel);

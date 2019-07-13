@@ -28,18 +28,16 @@ public class Message {
             throw new Exception("Not enough arguments provided in serialized message.");
         }
 
-        this.action = parseAction(raw);
-
-        if (action == null) {
-            throw new Exception("Invalid action.");
+        if (!isValidAction(raw)) {
+            throw new IllegalArgumentException("Invalid action: " + raw[0]);
         }
 
-        this.uuid = parseUniqueId(raw);
-
-        if (uuid == null) {
-            throw new Exception("Invalid UUID.");
+        if(!isValidUuid(raw)) {
+            throw new IllegalArgumentException("Invalid uuid: " + raw[1]);
         }
 
+        this.action = Action.valueOf(raw[0]);
+        this.uuid = UUID.fromString(raw[1]);
         this.arguments = Arrays.copyOfRange(raw, 2, raw.length);
 
     }
@@ -51,12 +49,18 @@ public class Message {
         return actionString + ":" + uniqueId + ":" + arguments;
     }
 
-    public static Action parseAction(String[] values) {
-        return Action.valueOf(values[0]);
+    public static boolean isValidUuid(String[] raw) {
+        if (raw[1].matches("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")) {
+            return true;
+        }
+        return false;
     }
 
-    public static UUID parseUniqueId(String[] values) {
-        return UUID.fromString(values[1]);
+    public static boolean isValidAction(String[] raw) {
+        if (Action.valueOf(raw[0]) == null) {
+            return false;
+        }
+        return true;
     }
 
     public Action getAction() {

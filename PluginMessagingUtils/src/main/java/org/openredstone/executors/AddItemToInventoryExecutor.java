@@ -20,6 +20,22 @@ public class AddItemToInventoryExecutor extends Executor {
             throw new Exception("Player not found.");
         }
 
+        if (message.getArguments().length <= 1) {
+            throw new Exception("Not enough arguments");
+        }
+
+        if(!isValidMaterial(message)) {
+            throw new IllegalArgumentException("Invalid material type: " + message.getArguments()[0]);
+        }
+
         player.getInventory().addItem(new ItemStack(Material.valueOf(message.getArguments()[0])));
+    }
+
+    private boolean isValidMaterial(Message message) {
+        String materialString = message.getArguments()[0];
+        if (Material.getMaterial(materialString) == null) {
+            return false;
+        }
+        return true;
     }
 }

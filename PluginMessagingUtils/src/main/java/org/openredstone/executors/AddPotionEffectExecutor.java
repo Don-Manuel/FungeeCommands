@@ -38,17 +38,11 @@ public class AddPotionEffectExecutor extends Executor {
 
     private boolean isValidAmplifier(Message message) {
         String amplifierString = message.getArguments()[1];
-        if (!amplifierString.matches("\\d+")) {
-            return false;
-        }
-        return true;
+        return amplifierString.matches("\\d+");
     }
 
     private boolean hasValidPotion(Message message) {
         String potionString = message.getArguments()[0];
-        if (PotionEffectType.getByName(potionString) == null) {
-            return false;
-        }
-        return true;
+        return PotionEffectType.getByName(potionString) != null;
     }
 }

@@ -5,8 +5,8 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import org.openredstone.handlers.MessageDispatchHandler;
-import org.openredstone.messaging.Action;
-import org.openredstone.messaging.Message;
+import org.openredstone.types.Action;
+import org.openredstone.messages.ActionMessage;
 
 public class Rename extends Command {
     public Rename() {
@@ -18,7 +18,7 @@ public class Rename extends Command {
             commandSender.sendMessage(new TextComponent("You do not have permission to run this command!"));
             return;
         }
-        Message message = new Message(Action.RENAME_ITEM, ((ProxiedPlayer) commandSender).getUniqueId(), strings[0]);
-        MessageDispatchHandler.sendData((ProxiedPlayer) commandSender, message.getSerializedMessage());
+        ActionMessage actionMessage = new ActionMessage(Action.RENAME_ITEM, ((ProxiedPlayer) commandSender).getUniqueId(), strings);
+        MessageDispatchHandler.sendData((ProxiedPlayer) commandSender, actionMessage.getSerializedMessage());
     }
 }

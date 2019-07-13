@@ -7,8 +7,8 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import org.openredstone.FungeeCommandsManager;
 import org.openredstone.handlers.MessageDispatchHandler;
-import org.openredstone.messaging.Action;
-import org.openredstone.messaging.Message;
+import org.openredstone.types.Action;
+import org.openredstone.messages.ActionMessage;
 
 import java.util.Random;
 
@@ -101,17 +101,17 @@ public class FoodFight extends Command {
                 );
 
         String[] itemValues = {food};
-        Message itemMessage = new Message(Action.ADD_ITEM_TO_INVENTORY, victim.getUniqueId(), itemValues);
-        MessageDispatchHandler.sendData((ProxiedPlayer) commandSender, itemMessage.getSerializedMessage());
+        ActionMessage itemActionMessage = new ActionMessage(Action.ADD_ITEM_TO_INVENTORY, victim.getUniqueId(), itemValues);
+        MessageDispatchHandler.sendData((ProxiedPlayer) commandSender, itemActionMessage.getSerializedMessage());
 
         if (rand.nextInt(5) == 0) {
             broadcast.append( ChatColor.DARK_RED + " Headshot!" );
             String[] blindnessValues = {"BLINDNESS", "40"};
             String[] confusionValues = {"CONFUSION", "40"};
-            Message blindnessMessage = new Message(Action.ADD_POTION_EFFECT, victim.getUniqueId(), blindnessValues);
-            Message confusionMessage = new Message(Action.ADD_POTION_EFFECT, victim.getUniqueId(), confusionValues);
-            MessageDispatchHandler.sendData((ProxiedPlayer) commandSender, blindnessMessage.getSerializedMessage());
-            MessageDispatchHandler.sendData((ProxiedPlayer) commandSender, confusionMessage.getSerializedMessage());
+            ActionMessage blindnessActionMessage = new ActionMessage(Action.ADD_POTION_EFFECT, victim.getUniqueId(), blindnessValues);
+            ActionMessage confusionActionMessage = new ActionMessage(Action.ADD_POTION_EFFECT, victim.getUniqueId(), confusionValues);
+            MessageDispatchHandler.sendData((ProxiedPlayer) commandSender, blindnessActionMessage.getSerializedMessage());
+            MessageDispatchHandler.sendData((ProxiedPlayer) commandSender, confusionActionMessage.getSerializedMessage());
 
         }
 

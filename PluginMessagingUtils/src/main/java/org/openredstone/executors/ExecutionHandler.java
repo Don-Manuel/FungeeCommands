@@ -8,6 +8,7 @@ public class ExecutionHandler {
     Plugin plugin;
     KillExecutor killExecutor;
     RawExecutor rawExecutor;
+    AddPotionEffectExecutor addPotionEffectExecutor;
     AddItemToInventoryExecutor addItemToInventoryExecutor;
 
     public ExecutionHandler(Plugin plugin) {
@@ -23,6 +24,9 @@ public class ExecutionHandler {
             case EXECUTE:
                 rawExecutor.execute(message);
                 return;
+            case ADD_POTION_EFFECT:
+                addPotionEffectExecutor.execute(message);
+                return;
             case ADD_ITEM_TO_INVENTORY:
                 addItemToInventoryExecutor.execute(message);
                 return;
@@ -32,6 +36,7 @@ public class ExecutionHandler {
     private void initializeExecutors(Plugin plugin) {
         this.killExecutor = new KillExecutor(plugin);
         this.rawExecutor = new RawExecutor(plugin);
+        this.addPotionEffectExecutor = new AddPotionEffectExecutor(plugin);
         this.addItemToInventoryExecutor = new AddItemToInventoryExecutor(plugin);
     }
 }

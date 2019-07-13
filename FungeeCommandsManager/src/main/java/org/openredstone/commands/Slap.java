@@ -19,7 +19,7 @@ public class Slap extends Command {
         }
 
         if(strings.length <= 0) {
-            commandSender.sendMessage(new TextComponent(ChatColor.RED+"[ERROR] You must specify who you are slapping"));
+            commandSender.sendMessage(new TextComponent(ChatColor.RED+"[ERROR] You must specify who you are throwing food at"));
         }
 
         ProxiedPlayer victim;

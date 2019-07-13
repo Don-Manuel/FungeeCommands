@@ -12,6 +12,7 @@ public class AddPotionEffectExecutor extends Executor {
         super(plugin);
     }
 
+    @Override
     public void execute(Message message) throws Exception, IllegalArgumentException {
         Player player = plugin.getServer().getPlayer(message.getUuid());
 

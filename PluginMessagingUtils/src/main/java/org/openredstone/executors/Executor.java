@@ -3,7 +3,7 @@ package org.openredstone.executors;
 import org.bukkit.plugin.Plugin;
 import org.openredstone.messaging.Message;
 
-public class Executor {
+public abstract class Executor {
 
     static Plugin plugin;
 
@@ -11,7 +11,6 @@ public class Executor {
         this.plugin = plugin;
     }
 
-    public void execute(Message message) throws Exception {
+    public abstract void execute(Message message) throws Exception;
 
-    }
 }

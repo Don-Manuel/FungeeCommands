@@ -1,14 +1,25 @@
 package org.openredstone.messaging;
 
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+import org.openredstone.messages.Message;
 
-public class MessageDispatcher {
-    public static void sendData(String channel, String subChannel, ProxiedPlayer proxiedPlayer, String data) {
-        ByteArrayDataOutput out = ByteStreams.newDataOutput();
-        out.writeUTF(subChannel);
-        out.writeUTF(data);
-        proxiedPlayer.getServer().sendData(channel, out.toByteArray());
+import java.util.UUID;
+
+public class MessageDispatcher extends Dispatcher {
+    public static boolean sendMessage(ProxyServer proxyServer, String channel, String subChannel, ProxiedPlayer proxiedPlayer, Message message) {
+        if (!targetPlayerExists(proxyServer, message.getUuid())) {
+            return false;
+        }
+        sendData(channel, subChannel, proxiedPlayer, message.getSerializedMessage());
+        return true;
+    }
+    private static boolean targetPlayerExists(ProxyServer proxyServer, UUID uuid) {
+        for (ProxiedPlayer proxiedPlayer : proxyServer.getPlayers()) {
+            if (proxiedPlayer.getUniqueId().equals(uuid)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

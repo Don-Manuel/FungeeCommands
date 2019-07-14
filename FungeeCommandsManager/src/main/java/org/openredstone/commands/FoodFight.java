@@ -6,7 +6,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import org.openredstone.FungeeCommandsManager;
-import org.openredstone.handlers.MessageDispatchHandler;
+import org.openredstone.messaging.MessageDispatcher;
 import org.openredstone.types.Action;
 import org.openredstone.messages.ActionMessage;
 
@@ -102,7 +102,12 @@ public class FoodFight extends Command {
 
         String[] itemValues = {food};
         ActionMessage itemActionMessage = new ActionMessage(Action.ADD_ITEM_TO_INVENTORY, victim.getUniqueId(), itemValues);
-        MessageDispatchHandler.sendData((ProxiedPlayer) commandSender, itemActionMessage.getSerializedMessage());
+        MessageDispatcher.sendMessage(
+                FungeeCommandsManager.proxy,
+                FungeeCommandsManager.channel,
+                FungeeCommandsManager.subChannel,
+                (ProxiedPlayer) commandSender,
+                itemActionMessage);
 
         if (rand.nextInt(5) == 0) {
             broadcast.append( ChatColor.DARK_RED + " Headshot!" );
@@ -110,8 +115,18 @@ public class FoodFight extends Command {
             String[] confusionValues = {"CONFUSION", "40"};
             ActionMessage blindnessActionMessage = new ActionMessage(Action.ADD_POTION_EFFECT, victim.getUniqueId(), blindnessValues);
             ActionMessage confusionActionMessage = new ActionMessage(Action.ADD_POTION_EFFECT, victim.getUniqueId(), confusionValues);
-            MessageDispatchHandler.sendData((ProxiedPlayer) commandSender, blindnessActionMessage.getSerializedMessage());
-            MessageDispatchHandler.sendData((ProxiedPlayer) commandSender, confusionActionMessage.getSerializedMessage());
+            MessageDispatcher.sendMessage(
+                    FungeeCommandsManager.proxy,
+                    FungeeCommandsManager.channel,
+                    FungeeCommandsManager.subChannel,
+                    (ProxiedPlayer) commandSender,
+                    blindnessActionMessage);
+            MessageDispatcher.sendMessage(
+                    FungeeCommandsManager.proxy,
+                    FungeeCommandsManager.channel,
+                    FungeeCommandsManager.subChannel,
+                    (ProxiedPlayer) commandSender,
+                    confusionActionMessage);
 
         }
 

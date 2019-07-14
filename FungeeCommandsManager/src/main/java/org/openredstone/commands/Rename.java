@@ -4,7 +4,8 @@ import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
-import org.openredstone.handlers.MessageDispatchHandler;
+import org.openredstone.FungeeCommandsManager;
+import org.openredstone.messaging.MessageDispatcher;
 import org.openredstone.types.Action;
 import org.openredstone.messages.ActionMessage;
 
@@ -19,6 +20,12 @@ public class Rename extends Command {
             return;
         }
         ActionMessage actionMessage = new ActionMessage(Action.RENAME_ITEM, ((ProxiedPlayer) commandSender).getUniqueId(), strings);
-        MessageDispatchHandler.sendData((ProxiedPlayer) commandSender, actionMessage.getSerializedMessage());
+        boolean result = MessageDispatcher.sendMessage(
+                FungeeCommandsManager.proxy,
+                FungeeCommandsManager.channel,
+                FungeeCommandsManager.subChannel,
+                (ProxiedPlayer) commandSender,
+                actionMessage);
+
     }
 }

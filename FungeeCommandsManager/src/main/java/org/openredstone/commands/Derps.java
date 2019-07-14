@@ -1,6 +1,7 @@
 package org.openredstone.commands;
 
 import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Command;
 import org.openredstone.FungeeCommandsManager;
 import org.openredstone.handlers.DerpHandler;
@@ -15,6 +16,9 @@ public class Derps extends Command {
             commandSender.sendMessage(FungeeCommandsManager.noPermissions);
             return;
         }
-        DerpHandler.getDerpList(commandSender);
+
+        for (TextComponent derp : DerpHandler.getDerpList(commandSender)) {
+            commandSender.sendMessage(derp);
+        }
     }
 }

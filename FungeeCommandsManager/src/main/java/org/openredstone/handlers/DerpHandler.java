@@ -2,12 +2,14 @@ package org.openredstone.handlers;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.openredstone.FungeeCommandsManager;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
@@ -31,21 +33,33 @@ public class DerpHandler  {
 
     }
 
-    public static void sendDerp(CommandSender sender, String[] args){
-        String derpPrefix = ChatColor.DARK_GREEN + " * " + ChatColor.WHITE + sender.getName() + ChatColor.DARK_BLUE + " DERP!  " + ChatColor.LIGHT_PURPLE;
+    public static TextComponent getDerp(CommandSender sender, String[] args){
+        // TODO: implement this ComponentBuilder magic everywhere
+        ComponentBuilder builder = new ComponentBuilder(" * ")
+                .color(ChatColor.GREEN)
+                .append(sender.getName())
+                .color(ChatColor.WHITE)
+                .append(" DERP! ")
+                .color(ChatColor.DARK_BLUE);
+        //String derpPrefix = ChatColor.DARK_GREEN + " * " + ChatColor.WHITE + sender.getName() + ChatColor.DARK_BLUE + " DERP!  " + ChatColor.LIGHT_PURPLE;
         try {
-            sender.sendMessage(new TextComponent(derpPrefix + derps.get(Integer.parseInt(args[0]))));
+            builder.append(derps.get(Integer.parseInt(args[0])));
         } catch(Exception e) {
-            sender.sendMessage(new TextComponent(derpPrefix + derps.get(rand.nextInt(derps.size() - 1) + 1)));
+            builder.append(derps.get(rand.nextInt(derps.size() - 1) + 1));
         }
+
+        builder.color(ChatColor.LIGHT_PURPLE);
+
+        return new TextComponent(builder.create());
     }
 
-    public static void getDerpList(CommandSender sender){
+    public static List<TextComponent> getDerpList(CommandSender sender){
         // TODO: figure out a java way of doing this
-        int index = 0;
+        // Is this java enough?
+        List<TextComponent> derpsComponents = new ArrayList<>();
         for (String derp : derps) {
-            sender.sendMessage(new TextComponent(index + ". " + derp));
-            ++index;
+            derpsComponents.add(new TextComponent(derps.indexOf(derp) + ". " + derp));
         }
+        return derpsComponents;
     }
 }

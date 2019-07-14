@@ -15,6 +15,7 @@ public class Derp extends Command {
             commandSender.sendMessage(FungeeCommandsManager.noPermissions);
             return;
         }
-        DerpHandler.sendDerp(commandSender, strings);
+
+        FungeeCommandsManager.proxy.broadcast(DerpHandler.getDerp(commandSender, strings));
     }
 }

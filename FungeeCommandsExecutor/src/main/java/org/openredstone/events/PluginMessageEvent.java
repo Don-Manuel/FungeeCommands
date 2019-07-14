@@ -5,9 +5,7 @@ import com.google.common.io.ByteStreams;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 import org.openredstone.FungeeCommandsExecutor;
-import org.openredstone.executors.ExecutionHandler;
-import org.openredstone.messaging.Message;
-import org.openredstone.messaging.MessageDispatcher;
+import org.openredstone.messages.ActionMessage;
 
 public class PluginMessageEvent implements PluginMessageListener {
     @Override
@@ -17,8 +15,12 @@ public class PluginMessageEvent implements PluginMessageListener {
         }
 
         ByteArrayDataInput in = ByteStreams.newDataInput( bytes );
+        String mainchannel = in.readUTF();
         String subChannel = in.readUTF();
 
+        if (!mainchannel.equalsIgnoreCase(channel)) {
+            return;
+        }
         if (!subChannel.equalsIgnoreCase(subChannel)) {
             return;
         }
@@ -26,11 +28,13 @@ public class PluginMessageEvent implements PluginMessageListener {
         String data = in.readUTF();
 
         try {
-            Message message = new Message(data);
-            FungeeCommandsExecutor.executionHandler.execute(message);
+            ActionMessage actionMessage = new ActionMessage(data);
+            FungeeCommandsExecutor.executionHandler.execute(actionMessage);
         } catch (Exception e) {
+            e.printStackTrace();
             FungeeCommandsExecutor.plugin.getLogger().warning(e.toString());
         }
 
     }
+
 }

@@ -6,8 +6,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 import org.openredstone.FungeeCommandsExecutor;
 import org.openredstone.messages.ActionMessage;
+import org.openredstone.messages.ReportMessage;
+import org.openredstone.messaging.ServerDispatcher;
+import org.openredstone.types.Report;
 
 public class PluginMessageEvent implements PluginMessageListener {
+
     @Override
     public void onPluginMessageReceived(String channel, Player player, byte[] bytes) {
         if (!FungeeCommandsExecutor.channel.equalsIgnoreCase(channel)) {
@@ -15,13 +19,9 @@ public class PluginMessageEvent implements PluginMessageListener {
         }
 
         ByteArrayDataInput in = ByteStreams.newDataInput( bytes );
-        String mainChannel = in.readUTF();
         String subChannel = in.readUTF();
 
-        if (!mainChannel.equalsIgnoreCase(channel)) {
-            return;
-        }
-        if (!subChannel.equalsIgnoreCase(subChannel)) {
+        if (!subChannel.equalsIgnoreCase(FungeeCommandsExecutor.subChannel)) {
             return;
         }
 
@@ -31,8 +31,17 @@ public class PluginMessageEvent implements PluginMessageListener {
             ActionMessage actionMessage = new ActionMessage(data);
             FungeeCommandsExecutor.executionHandler.execute(actionMessage);
         } catch (Exception e) {
-            e.printStackTrace();
-            FungeeCommandsExecutor.plugin.getLogger().warning(e.toString());
+            ReportMessage reportMessage = new ReportMessage(
+              Report.ERROR,
+              e.toString().split(" ")
+            );
+            ServerDispatcher.sendData(
+                    FungeeCommandsExecutor.plugin,
+                    player,
+                    FungeeCommandsExecutor.channel,
+                    FungeeCommandsExecutor.subChannel,
+                    reportMessage.getSerializedMessage()
+            );
         }
 
     }

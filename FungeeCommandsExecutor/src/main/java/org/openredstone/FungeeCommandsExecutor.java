@@ -23,8 +23,9 @@ public class FungeeCommandsExecutor extends JavaPlugin {
             return;
         }
 
+        getServer().getMessenger().registerOutgoingPluginChannel( this, channel);
         getServer().getMessenger().registerIncomingPluginChannel( this, channel, new PluginMessageEvent());
-        getLogger().info("Dispatcher enabled successfully.");
+        getLogger().info("ProxyDispatcher enabled successfully.");
     }
 
     private void checkIfBungee() {

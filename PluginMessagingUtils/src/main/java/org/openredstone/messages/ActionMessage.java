@@ -8,10 +8,12 @@ import java.util.UUID;
 public class ActionMessage extends Message {
 
     Action action;
+    UUID uuid;
 
     public ActionMessage(Action action, UUID uuid, String[] arguments) {
-        super(uuid, arguments);
+        super(arguments);
         this.action = action;
+        this.uuid = uuid;
     }
 
     public ActionMessage(String serializedMessage) throws Exception {
@@ -38,7 +40,12 @@ public class ActionMessage extends Message {
     @Override
     public String getSerializedMessage() {
         String actionString = action.name();
-        return actionString + ":" + super.getSerializedMessage();
+        String uuidString = uuid.toString();
+        return actionString + ":" + uuidString + ":" + super.getSerializedMessage();
+    }
+
+    public boolean isValidUuid() {
+        return uuid.toString().matches("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}");
     }
 
     private static boolean isValidAction(String action) {
@@ -48,6 +55,10 @@ public class ActionMessage extends Message {
         } catch (IllegalArgumentException e) {
             return false;
         }
+    }
+
+    public UUID getUuid() {
+        return uuid;
     }
 
     public Action getAction() {

@@ -7,7 +7,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import org.openredstone.FungeeCommandsManager;
 import org.openredstone.messages.ActionMessage;
-import org.openredstone.messaging.MessageDispatcher;
+import org.openredstone.messaging.MessageProxyDispatcher;
 import org.openredstone.types.Action;
 
 import java.util.Random;
@@ -102,7 +102,7 @@ public class FoodFight extends Command {
 
         String[] itemValues = {food};
         ActionMessage itemActionMessage = new ActionMessage(Action.ADD_ITEM_TO_INVENTORY, victim.getUniqueId(), itemValues);
-        MessageDispatcher.sendMessage(
+        MessageProxyDispatcher.sendMessage(
                 FungeeCommandsManager.proxy,
                 FungeeCommandsManager.channel,
                 FungeeCommandsManager.subChannel,
@@ -115,13 +115,13 @@ public class FoodFight extends Command {
             String[] confusionValues = {"CONFUSION", "40"};
             ActionMessage blindnessActionMessage = new ActionMessage(Action.ADD_POTION_EFFECT, victim.getUniqueId(), blindnessValues);
             ActionMessage confusionActionMessage = new ActionMessage(Action.ADD_POTION_EFFECT, victim.getUniqueId(), confusionValues);
-            MessageDispatcher.sendMessage(
+            MessageProxyDispatcher.sendMessage(
                     FungeeCommandsManager.proxy,
                     FungeeCommandsManager.channel,
                     FungeeCommandsManager.subChannel,
                     (ProxiedPlayer) commandSender,
                     blindnessActionMessage);
-            MessageDispatcher.sendMessage(
+            MessageProxyDispatcher.sendMessage(
                     FungeeCommandsManager.proxy,
                     FungeeCommandsManager.channel,
                     FungeeCommandsManager.subChannel,

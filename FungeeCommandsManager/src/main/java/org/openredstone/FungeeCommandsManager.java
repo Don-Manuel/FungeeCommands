@@ -9,6 +9,7 @@ import net.md_5.bungee.api.plugin.PluginDescription;
 import org.openredstone.commands.*;
 import org.openredstone.handlers.DerpHandler;
 import org.openredstone.handlers.DynamicCommandHandler;
+import org.openredstone.listeners.ChannelListener;
 
 import java.io.File;
 import java.util.logging.Logger;
@@ -34,14 +35,15 @@ public class FungeeCommandsManager extends Plugin {
         pluginDescription = getDescription();
         plugin = this;
 
-        getProxy().getPluginManager().registerCommand(this, new Derp());
-        getProxy().getPluginManager().registerCommand(this, new Derps());
-        getProxy().getPluginManager().registerCommand(this, new FoodFight());
-        getProxy().getPluginManager().registerCommand(this, new Reload(this));
-        getProxy().getPluginManager().registerCommand(this, new Rename());
-        getProxy().getPluginManager().registerCommand(this, new Slap());
-        getProxy().getPluginManager().registerCommand(this, new Version());
+        proxy.getPluginManager().registerCommand(this, new Derp());
+        proxy.getPluginManager().registerCommand(this, new Derps());
+        proxy.getPluginManager().registerCommand(this, new FoodFight());
+        proxy.getPluginManager().registerCommand(this, new Reload(this));
+        proxy.getPluginManager().registerCommand(this, new Rename());
+        proxy.getPluginManager().registerCommand(this, new Slap());
+        proxy.getPluginManager().registerCommand(this, new Version());
 
+        proxy.getPluginManager().registerListener(this, new ChannelListener());
         proxy.registerChannel(channel);
 
         // also TODO: get load/unload/reload functionality into one place

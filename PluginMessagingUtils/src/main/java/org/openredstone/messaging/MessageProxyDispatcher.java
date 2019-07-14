@@ -2,12 +2,12 @@ package org.openredstone.messaging;
 
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import org.openredstone.messages.Message;
+import org.openredstone.messages.ActionMessage;
 
 import java.util.UUID;
 
-public class MessageDispatcher extends Dispatcher {
-    public static boolean sendMessage(ProxyServer proxyServer, String channel, String subChannel, ProxiedPlayer proxiedPlayer, Message message) {
+public class MessageProxyDispatcher extends ProxyDispatcher {
+    public static boolean sendMessage(ProxyServer proxyServer, String channel, String subChannel, ProxiedPlayer proxiedPlayer, ActionMessage message) {
         if (!targetPlayerExists(proxyServer, message.getUuid())) {
             return false;
         }

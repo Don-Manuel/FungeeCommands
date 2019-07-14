@@ -41,6 +41,7 @@ public class FungeeCommandsManager extends Plugin {
         proxy.getPluginManager().registerCommand(this, new FoodFight());
         proxy.getPluginManager().registerCommand(this, new Reload(this));
         proxy.getPluginManager().registerCommand(this, new Rename());
+        proxy.getPluginManager().registerCommand(this, new Shrug());
         proxy.getPluginManager().registerCommand(this, new Slap());
         proxy.getPluginManager().registerCommand(this, new Version());
 

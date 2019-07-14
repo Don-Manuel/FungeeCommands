@@ -33,7 +33,7 @@ public class DynamicCommandHandler {
             String name = (String) cmd.get("command");
             commands.add(new GenericCommand(
                     name,
-                    "FungeeCommandsManager." + name,
+                    FungeeCommandsManager.rootPermission + "." + name,
                     (String) cmd.get("description"),
                     (String) cmd.getOrDefault("globalChat", null),
                     (String) cmd.getOrDefault("localChat", null),

@@ -11,8 +11,8 @@ public class Version extends Command {
     }
     @Override
     public void execute(CommandSender commandSender, String[] strings) {
-        if(!commandSender.hasPermission("funcommands" + this.getClass().getSimpleName())){
-            commandSender.sendMessage(new TextComponent("You do not have permission to run this command!"));
+        if(!commandSender.hasPermission(FungeeCommandsManager.rootPermission + "." + this.getClass().getSimpleName())){
+            commandSender.sendMessage(FungeeCommandsManager.noPermissions);
             return;
         }
         commandSender.sendMessage(new TextComponent("FungeeCommandsManager version: " + FungeeCommandsManager.pluginDescription.getVersion()));

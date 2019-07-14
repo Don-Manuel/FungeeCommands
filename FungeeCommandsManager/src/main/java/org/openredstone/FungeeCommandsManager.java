@@ -2,7 +2,8 @@ package org.openredstone;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginDescription;
@@ -17,7 +18,7 @@ import java.util.logging.Logger;
 public class FungeeCommandsManager extends Plugin {
 
     public static String rootPermission = "funcommands";
-    public static TextComponent noPermissions = new TextComponent(ChatColor.RED + "You do not have permission to run this command!");
+    public static BaseComponent[] noPermissions = new ComponentBuilder("You do not have permission to run this command!").color(ChatColor.RED).create();
     public static String channel = "fun:commands";
     public static String subChannel = "dispatcher";
     public static ProxyServer proxy;

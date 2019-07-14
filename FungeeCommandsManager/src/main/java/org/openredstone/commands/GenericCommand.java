@@ -2,10 +2,13 @@ package org.openredstone.commands;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import org.openredstone.FungeeCommandsManager;
+import org.openredstone.messages.ActionMessage;
+import org.openredstone.messaging.MessageProxyDispatcher;
+import org.openredstone.types.Action;
 
 public class GenericCommand extends Command {
     private final String description;
@@ -44,27 +47,41 @@ public class GenericCommand extends Command {
 
         try {
             if (globalMessage != null) {
-                FungeeCommandsManager.proxy.broadcast(formatMessage(globalMessage, args, sender));
+                FungeeCommandsManager.proxy.broadcast(new ComponentBuilder(formatMessage(globalMessage, args, sender)).create());
             }
 
             if (localMessage != null) {
-                sender.sendMessage(formatMessage(localMessage, args, sender));
+                sender.sendMessage(new ComponentBuilder(formatMessage(localMessage, args, sender)).create());
             }
 
             if (toRun != null) {
-                // TODO
-                sender.sendMessage(formatMessage(toRun, args, sender));
+                if (!(sender instanceof ProxiedPlayer)) {
+                    return;
+                }
+
+                ActionMessage actionMessage = new ActionMessage(
+                        Action.EXECUTE,
+                        ((ProxiedPlayer) sender).getUniqueId(),
+                        formatMessage(toRun, args, sender).split(" "));
+
+                MessageProxyDispatcher.sendMessage(
+                        FungeeCommandsManager.proxy,
+                        FungeeCommandsManager.channel,
+                        FungeeCommandsManager.subChannel,
+                        (ProxiedPlayer) sender,
+                        actionMessage);
             }
         } catch (IllegalArgumentException e) {
             // TODO: handle args properly
-            sender.sendMessage(new TextComponent(
-                    ChatColor.RED + "Invalid usage, with best regards " + description
-            ));
+
+            sender.sendMessage(new ComponentBuilder("Invalid usage, with best regards ").color(ChatColor.RED)
+                    .append(description).color(ChatColor.YELLOW)
+                    .create()
+            );
         }
     }
 
-    private TextComponent formatMessage(String text, String[] args, CommandSender sender) throws IllegalArgumentException {
-
+    private String formatMessage(String text, String[] args, CommandSender sender) throws IllegalArgumentException {
         if (sender instanceof  ProxiedPlayer) {
             text = text
                     .replace("<uuid>", ((ProxiedPlayer) sender).getUniqueId().toString());
@@ -77,7 +94,7 @@ public class GenericCommand extends Command {
                 .replace("<arg-all>", String.join(" ", args));
         text = formatArgs(text, args);
         text = ChatColor.translateAlternateColorCodes('&', text);
-        return new TextComponent(text);
+        return text;
     }
 
     private static String formatArgs(String text, String[] args) throws IllegalArgumentException {

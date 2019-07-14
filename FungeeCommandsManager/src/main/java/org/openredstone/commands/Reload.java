@@ -1,7 +1,8 @@
 package org.openredstone.commands;
 
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.Plugin;
 import org.openredstone.FungeeCommandsManager;
@@ -31,9 +32,9 @@ public class Reload extends Command {
         } catch (Exception e) {
             // TODO: nail down the possible exceptions and report them in a better way
             e.printStackTrace();
-            commandSender.sendMessage(new TextComponent("Could not reload FungeeCommandsManager"));
+            commandSender.sendMessage(new ComponentBuilder("Could not reload FungeeCommandsManager").color(ChatColor.RED).create());
             return;
         }
-        commandSender.sendMessage(new TextComponent("Reloaded FungeeCommandsManager."));
+        commandSender.sendMessage(new ComponentBuilder("Reloaded FungeeCommandsManager.").color(ChatColor.YELLOW).create());
     }
 }

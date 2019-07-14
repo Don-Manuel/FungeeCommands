@@ -2,7 +2,7 @@ package org.openredstone.listeners;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PluginMessageEvent;
 import net.md_5.bungee.api.plugin.Listener;
@@ -26,6 +26,6 @@ public class ChannelListener implements Listener {
 
         String data = in.readUTF();
         ReportMessage reportMessage = new ReportMessage(data);
-        ((ProxiedPlayer) e.getReceiver()).sendMessage(new TextComponent(reportMessage.getColor() + String.join(" ", reportMessage.getArguments()).substring(1)));
+        ((ProxiedPlayer) e.getReceiver()).sendMessage(new ComponentBuilder(String.join(" ", reportMessage.getArguments()).substring(1)).color(reportMessage.getColor()).create());
     }
 }

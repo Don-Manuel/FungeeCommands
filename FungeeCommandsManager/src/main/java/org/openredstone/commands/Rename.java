@@ -19,7 +19,7 @@ public class Rename extends Command {
             return;
         }
         ActionMessage actionMessage = new ActionMessage(Action.RENAME_ITEM, ((ProxiedPlayer) commandSender).getUniqueId(), strings);
-        boolean result = MessageProxyDispatcher.sendMessage(
+        MessageProxyDispatcher.sendMessage(
                 FungeeCommandsManager.proxy,
                 FungeeCommandsManager.channel,
                 FungeeCommandsManager.subChannel,

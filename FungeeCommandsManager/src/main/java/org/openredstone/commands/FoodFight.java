@@ -2,7 +2,7 @@ package org.openredstone.commands;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import org.openredstone.FungeeCommandsManager;
@@ -69,19 +69,11 @@ public class FoodFight extends Command {
         try{
             victim = FungeeCommandsManager.getPlayer(strings[0]);
         }catch(Exception e){
-            commandSender.sendMessage(new TextComponent(ChatColor.RED+"[ERROR] No such player."));
+            commandSender.sendMessage(new ComponentBuilder("No such player.").color(ChatColor.RED).create());
             return;
         }
 
-        String victimName = "";
-
-        try{
-            victimName = victim.getName();
-        }catch(Exception e){
-            commandSender.sendMessage(new TextComponent(ChatColor.RED+"[ERROR] No such player."));
-            return;
-        }
-
+        String victimName = victim.getDisplayName();
         String food;
 
         if ((strings.length > 1) && (isValidFood(strings[1]))) {
@@ -90,15 +82,12 @@ public class FoodFight extends Command {
             food = getRandomFood();
         }
 
-        StringBuilder broadcast = new StringBuilder();
-
-        broadcast.append(
-                ChatColor.DARK_PURPLE + ((ProxiedPlayer) commandSender).getDisplayName() +
-                ChatColor.YELLOW + " threw a " +
-                ChatColor.GOLD + getPrettyPrint(food) +
-                ChatColor.RED + " at " +
-                ChatColor.DARK_PURPLE + victimName + "."
-                );
+        ComponentBuilder foodComponent = new ComponentBuilder(((ProxiedPlayer) commandSender).getDisplayName()).color(ChatColor.DARK_PURPLE)
+                .append(" threw a" + (getPrettyPrint(food).matches("^[AEIOU].*") ? "n " : " ")).color(ChatColor.YELLOW)
+                .append(getPrettyPrint(food)).color(ChatColor.GOLD)
+                .append(" at ").color(ChatColor.RED)
+                .append(victimName).color(ChatColor.DARK_PURPLE)
+                .append(".").color(ChatColor.YELLOW);
 
         String[] itemValues = {food};
         ActionMessage itemActionMessage = new ActionMessage(Action.ADD_ITEM_TO_INVENTORY, victim.getUniqueId(), itemValues);
@@ -110,7 +99,7 @@ public class FoodFight extends Command {
                 itemActionMessage);
 
         if (rand.nextInt(5) == 0) {
-            broadcast.append( ChatColor.DARK_RED + " Headshot!" );
+            foodComponent.append(" Headshot!").color(ChatColor.DARK_RED);
             String[] blindnessValues = {"BLINDNESS", "40"};
             String[] confusionValues = {"CONFUSION", "40"};
             ActionMessage blindnessActionMessage = new ActionMessage(Action.ADD_POTION_EFFECT, victim.getUniqueId(), blindnessValues);
@@ -130,7 +119,7 @@ public class FoodFight extends Command {
 
         }
 
-        FungeeCommandsManager.plugin.getProxy().broadcast(new TextComponent(broadcast.toString()));
+        FungeeCommandsManager.plugin.getProxy().broadcast(foodComponent.create());
 
     }
 

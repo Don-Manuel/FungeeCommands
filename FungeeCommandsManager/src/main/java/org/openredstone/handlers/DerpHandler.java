@@ -35,22 +35,19 @@ public class DerpHandler  {
 
     public static TextComponent getDerp(CommandSender sender, String[] args){
         // TODO: implement this ComponentBuilder magic everywhere
-        ComponentBuilder builder = new ComponentBuilder(" * ")
-                .color(ChatColor.GREEN)
-                .append(sender.getName())
-                .color(ChatColor.WHITE)
-                .append(" DERP! ")
-                .color(ChatColor.DARK_BLUE);
+        ComponentBuilder derpBuilder = new ComponentBuilder(" * ").color(ChatColor.GREEN)
+                .append(sender.getName()).color(ChatColor.WHITE)
+                .append(" DERP! ").color(ChatColor.DARK_BLUE);
 
         try {
-            builder.append(derps.get(Integer.parseInt(args[0])));
+            derpBuilder.append(derps.get(Integer.parseInt(args[0])));
         } catch(Exception e) {
-            builder.append(derps.get(rand.nextInt(derps.size() - 1) + 1));
+            derpBuilder.append(derps.get(rand.nextInt(derps.size() - 1) + 1));
         }
 
-        builder.color(ChatColor.LIGHT_PURPLE);
+        derpBuilder.color(ChatColor.LIGHT_PURPLE);
 
-        return new TextComponent(builder.create());
+        return new TextComponent(derpBuilder.create());
     }
 
     public static List<TextComponent> getDerpList(CommandSender sender){

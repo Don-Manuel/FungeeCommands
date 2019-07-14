@@ -41,7 +41,7 @@ public class DerpHandler  {
                 .color(ChatColor.WHITE)
                 .append(" DERP! ")
                 .color(ChatColor.DARK_BLUE);
-        //String derpPrefix = ChatColor.DARK_GREEN + " * " + ChatColor.WHITE + sender.getName() + ChatColor.DARK_BLUE + " DERP!  " + ChatColor.LIGHT_PURPLE;
+
         try {
             builder.append(derps.get(Integer.parseInt(args[0])));
         } catch(Exception e) {

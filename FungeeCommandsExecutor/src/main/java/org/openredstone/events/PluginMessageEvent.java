@@ -15,10 +15,10 @@ public class PluginMessageEvent implements PluginMessageListener {
         }
 
         ByteArrayDataInput in = ByteStreams.newDataInput( bytes );
-        String mainchannel = in.readUTF();
+        String mainChannel = in.readUTF();
         String subChannel = in.readUTF();
 
-        if (!mainchannel.equalsIgnoreCase(channel)) {
+        if (!mainChannel.equalsIgnoreCase(channel)) {
             return;
         }
         if (!subChannel.equalsIgnoreCase(subChannel)) {

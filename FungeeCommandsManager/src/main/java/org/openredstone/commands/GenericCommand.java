@@ -38,7 +38,7 @@ public class GenericCommand extends Command {
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (!hasPermission(sender)) {
-            sender.sendMessage(new TextComponent(ChatColor.RED + "You do not have permission to run this command!"));
+            sender.sendMessage(FungeeCommandsManager.noPermissions);
             return;
         }
 

@@ -21,6 +21,9 @@ public class ActionMessage extends Message {
             throw new Exception("Not enough arguments provided in serialized message.");
         }
 
+        this.action = Action.valueOf(raw[0]);
+        this.uuid = UUID.fromString(raw[1]);
+
         if (!isValidAction(raw[0])) {
             throw new IllegalArgumentException("Invalid action: " + raw[0]);
         }
@@ -28,9 +31,6 @@ public class ActionMessage extends Message {
         if(!isValidUuid()) {
             throw new IllegalArgumentException("Invalid uuid: " + raw[1]);
         }
-
-        this.action = Action.valueOf(raw[0]);
-        this.uuid = UUID.fromString(raw[1]);
         this.arguments = Arrays.copyOfRange(raw, 2, raw.length);
 
     }

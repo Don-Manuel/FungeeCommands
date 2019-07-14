@@ -23,7 +23,7 @@ public class FungeeCommandsExecutor extends JavaPlugin {
             return;
         }
 
-        getServer().getMessenger().registerIncomingPluginChannel( this, channel, new PluginMessageEvent()); // we register the incoming channel
+        getServer().getMessenger().registerIncomingPluginChannel( this, channel, new PluginMessageEvent());
         getLogger().info("Dispatcher enabled successfully.");
     }
 

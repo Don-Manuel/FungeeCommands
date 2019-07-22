@@ -32,7 +32,7 @@ public class GenericCommand extends Command {
     }
 
     // TODO #2: api update to 1.13, delete this
-    private boolean hasPermission(CommandSender sender) {
+    public boolean hasPermission(CommandSender sender) {
         return getPermission() == null
                 || getPermission().equals("")
                 || sender.hasPermission(getPermission());

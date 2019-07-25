@@ -10,14 +10,11 @@ import org.openredstone.types.Action;
 
 public class Rename extends Command {
     public Rename() {
-        super("rename");
+        super("rename", FungeeCommandsManager.permissionFor("rename"));
     }
+
     @Override
     public void execute(CommandSender commandSender, String[] strings) {
-        if(!commandSender.hasPermission(FungeeCommandsManager.rootPermission + "." + this.getClass().getSimpleName())){
-            commandSender.sendMessage(FungeeCommandsManager.noPermissions);
-            return;
-        }
         ActionMessage actionMessage = new ActionMessage(Action.RENAME_ITEM, ((ProxiedPlayer) commandSender).getUniqueId(), strings);
         MessageProxyDispatcher.sendMessage(
                 FungeeCommandsManager.proxy,

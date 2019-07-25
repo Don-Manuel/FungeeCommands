@@ -53,17 +53,11 @@ public class FoodFight extends Command {
     };
 
     public FoodFight() {
-        super("foodfight");
+        super("foodfight", FungeeCommandsManager.permissionFor("foodfight"));
     }
 
     @Override
     public void execute(CommandSender commandSender, String[] strings) {
-
-        if(!commandSender.hasPermission(FungeeCommandsManager.rootPermission + "." + this.getClass().getSimpleName())){
-            commandSender.sendMessage(FungeeCommandsManager.noPermissions);
-            return;
-        }
-
         ProxiedPlayer victim;
 
         try{

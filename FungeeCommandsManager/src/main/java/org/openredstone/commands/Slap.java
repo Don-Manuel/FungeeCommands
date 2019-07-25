@@ -9,15 +9,10 @@ import org.openredstone.FungeeCommandsManager;
 
 public class Slap extends Command {
     public Slap() {
-        super("slap");
+        super("slap", FungeeCommandsManager.permissionFor("slap"));
     }
     @Override
     public void execute(CommandSender commandSender, String[] strings) {
-        if(!commandSender.hasPermission(FungeeCommandsManager.rootPermission + "." + this.getClass().getSimpleName())){
-            commandSender.sendMessage(FungeeCommandsManager.noPermissions);
-            return;
-        }
-
         if(strings.length <= 0) {
             commandSender.sendMessage(new ComponentBuilder("You must specify who you are slapping.").color(ChatColor.RED).create());
         }

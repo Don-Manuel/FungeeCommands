@@ -8,15 +8,11 @@ import org.openredstone.handlers.DerpHandler;
 
 public class Derps extends Command {
     public Derps() {
-        super("derps");
+        super("derps", FungeeCommandsManager.permissionFor("derps"));
     }
+
     @Override
     public void execute(CommandSender commandSender, String[] strings) {
-        if(!commandSender.hasPermission(FungeeCommandsManager.rootPermission + "." + this.getClass().getSimpleName())){
-            commandSender.sendMessage(FungeeCommandsManager.noPermissions);
-            return;
-        }
-
         for (TextComponent derp : DerpHandler.getDerpList(commandSender)) {
             commandSender.sendMessage(derp);
         }

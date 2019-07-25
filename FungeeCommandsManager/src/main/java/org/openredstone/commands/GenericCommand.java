@@ -24,6 +24,7 @@ public class GenericCommand extends Command {
             String localMessage,
             String toRun
     ) {
+        // TODO: permission
         super(command, permission);
         this.description = description;
         this.globalMessage = globalMessage;
@@ -31,20 +32,8 @@ public class GenericCommand extends Command {
         this.toRun = toRun;
     }
 
-    // TODO #2: api update to 1.13, delete this
-    public boolean hasPermission(CommandSender sender) {
-        return getPermission() == null
-                || getPermission().equals("")
-                || sender.hasPermission(getPermission());
-    }
-
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if (!hasPermission(sender)) {
-            sender.sendMessage(FungeeCommandsManager.noPermissions);
-            return;
-        }
-
         try {
             if (globalMessage != null) {
                 FungeeCommandsManager.proxy.broadcast(new ComponentBuilder(formatMessage(globalMessage, args, sender)).create());

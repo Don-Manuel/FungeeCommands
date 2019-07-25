@@ -13,17 +13,12 @@ public class Reload extends Command {
     Plugin plugin;
 
     public Reload(Plugin plugin) {
-        super("funreload");
+        super("funreload", FungeeCommandsManager.permissionFor("funreload"));
         this.plugin = plugin;
     }
 
     @Override
     public void execute(CommandSender commandSender, String[] strings) {
-        if (!commandSender.hasPermission(FungeeCommandsManager.rootPermission + "." + this.getClass().getSimpleName())) {
-            commandSender.sendMessage(FungeeCommandsManager.noPermissions);
-            return;
-        }
-
         try {
             DynamicCommandHandler.unregisterCommands(plugin);
             DynamicCommandHandler.readCommands();

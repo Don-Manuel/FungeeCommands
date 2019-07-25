@@ -43,7 +43,6 @@ public class FungeeCommandsManager extends Plugin {
                 new FoodFight(),
                 new Reload(derpHandler, dynamicCommandHandler),
                 new Rename(),
-                new Shrug(),
                 new Slap(),
                 new Version(pluginDescription.getVersion())
         );

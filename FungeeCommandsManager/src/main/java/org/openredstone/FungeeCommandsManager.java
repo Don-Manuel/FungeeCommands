@@ -12,15 +12,11 @@ import org.openredstone.handlers.LoadException;
 import org.openredstone.listeners.ChannelListener;
 
 import java.io.File;
-import java.util.logging.Logger;
 
 public class FungeeCommandsManager extends Plugin {
     public static final String channel = "fun:commands";
     public static final String subChannel = "dispatcher";
     public static ProxyServer proxy;
-    private Logger logger;
-    private File pluginFolder;
-    public static PluginDescription pluginDescription;
     public static Plugin plugin;
 
     public static String permissionFor(String name) {
@@ -29,11 +25,12 @@ public class FungeeCommandsManager extends Plugin {
 
     @Override
     public void onEnable() {
-        proxy = getProxy();
-        logger = getLogger();
-        pluginFolder = getDataFolder();
-        pluginDescription = getDescription();
         plugin = this;
+        proxy = getProxy();
+
+        // slight mess here now
+        File pluginFolder = getDataFolder();
+        PluginDescription pluginDescription = getDescription();
 
         DerpHandler derpHandler = new DerpHandler(new File(pluginFolder, "derps.txt"));
 
@@ -48,7 +45,7 @@ public class FungeeCommandsManager extends Plugin {
                 new Rename(),
                 new Shrug(),
                 new Slap(),
-                new Version()
+                new Version(pluginDescription.getVersion())
         );
 
         proxy.getPluginManager().registerListener(this, new ChannelListener());

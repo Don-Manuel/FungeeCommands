@@ -14,9 +14,9 @@ import java.util.logging.Logger;
 
 public class FungeeCommandsManager extends Plugin {
 
-    public final static String rootPermission = "funcommands";
-    public final static String channel = "fun:commands";
-    public final static String subChannel = "dispatcher";
+    private static final String rootPermission = "funcommands";
+    public static final String channel = "fun:commands";
+    public static final String subChannel = "dispatcher";
     public static ProxyServer proxy;
     public static Logger logger;
     public static File pluginFolder;
@@ -36,7 +36,7 @@ public class FungeeCommandsManager extends Plugin {
         pluginDescription = getDescription();
         plugin = this;
 
-        proxy.getPluginManager().registerCommand(this, new Derp());
+        proxy.getPluginManager().registerCommand(this, new Derp(proxy));
         proxy.getPluginManager().registerCommand(this, new Derps());
         proxy.getPluginManager().registerCommand(this, new FoodFight());
         proxy.getPluginManager().registerCommand(this, new Reload(this));

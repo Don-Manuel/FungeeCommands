@@ -2,6 +2,7 @@ package org.openredstone;
 
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginDescription;
 import org.openredstone.commands.*;
@@ -10,6 +11,7 @@ import org.openredstone.handlers.DynamicCommandHandler;
 import org.openredstone.listeners.ChannelListener;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 public class FungeeCommandsManager extends Plugin {
@@ -36,14 +38,16 @@ public class FungeeCommandsManager extends Plugin {
         pluginDescription = getDescription();
         plugin = this;
 
-        proxy.getPluginManager().registerCommand(this, new Derp(proxy));
-        proxy.getPluginManager().registerCommand(this, new Derps());
-        proxy.getPluginManager().registerCommand(this, new FoodFight());
-        proxy.getPluginManager().registerCommand(this, new Reload(this));
-        proxy.getPluginManager().registerCommand(this, new Rename());
-        proxy.getPluginManager().registerCommand(this, new Shrug());
-        proxy.getPluginManager().registerCommand(this, new Slap());
-        proxy.getPluginManager().registerCommand(this, new Version());
+        registerCommands(
+                new Derp(proxy),
+                new Derps(),
+                new FoodFight(),
+                new Reload(this),
+                new Rename(),
+                new Shrug(),
+                new Slap(),
+                new Version()
+        );
 
         proxy.getPluginManager().registerListener(this, new ChannelListener());
         proxy.registerChannel(channel);
@@ -60,6 +64,11 @@ public class FungeeCommandsManager extends Plugin {
         }
     }
 
+    private void registerCommands(Command... commands) {
+        for (Command command : commands) {
+            proxy.getPluginManager().registerCommand(this, command);
+        }
+    }
     public static ProxiedPlayer getPlayer(String name) throws Exception {
         for (ProxiedPlayer proxiedPlayer : proxy.getPlayers()) {
             if (proxiedPlayer.getDisplayName().equals(name)) {

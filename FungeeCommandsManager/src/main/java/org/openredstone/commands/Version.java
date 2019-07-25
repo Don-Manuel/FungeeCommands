@@ -3,12 +3,11 @@ package org.openredstone.commands;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.plugin.Command;
 import org.openredstone.FungeeCommandsManager;
 
-public class Version extends Command {
+public class Version extends FunCommand {
     public Version() {
-        super("funversion", FungeeCommandsManager.permissionFor("funversion"));
+        super("funversion");
     }
 
     @Override

@@ -1,62 +1,68 @@
 package org.openredstone;
 
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginDescription;
 import org.openredstone.commands.*;
 import org.openredstone.handlers.DerpHandler;
 import org.openredstone.handlers.DynamicCommandHandler;
+import org.openredstone.handlers.LoadException;
 import org.openredstone.listeners.ChannelListener;
 
 import java.io.File;
-import java.util.logging.Logger;
 
 public class FungeeCommandsManager extends Plugin {
-
-    public static String rootPermission = "funcommands";
-    public static BaseComponent[] noPermissions = new ComponentBuilder("You do not have permission to run this command!").color(ChatColor.RED).create();
-    public static String channel = "fun:commands";
-    public static String subChannel = "dispatcher";
+    public static final String channel = "fun:commands";
+    public static final String subChannel = "dispatcher";
     public static ProxyServer proxy;
-    public static Logger logger;
-    public static File pluginFolder;
-    public static PluginDescription pluginDescription;
     public static Plugin plugin;
+
+    public static String permissionFor(String name) {
+        return "funcommands." + name;
+    }
 
     @Override
     public void onEnable() {
-
-        proxy = getProxy();
-        logger = getLogger();
-        pluginFolder = getDataFolder();
-        pluginDescription = getDescription();
         plugin = this;
+        proxy = getProxy();
 
-        proxy.getPluginManager().registerCommand(this, new Derp());
-        proxy.getPluginManager().registerCommand(this, new Derps());
-        proxy.getPluginManager().registerCommand(this, new FoodFight());
-        proxy.getPluginManager().registerCommand(this, new Reload(this));
-        proxy.getPluginManager().registerCommand(this, new Rename());
-        proxy.getPluginManager().registerCommand(this, new Shrug());
-        proxy.getPluginManager().registerCommand(this, new Slap());
-        proxy.getPluginManager().registerCommand(this, new Version());
+        // slight mess here now
+        File pluginFolder = getDataFolder();
+        PluginDescription pluginDescription = getDescription();
+
+        DerpHandler derpHandler = new DerpHandler(new File(pluginFolder, "derps.txt"));
+
+        File commandFile = new File(pluginFolder, "commands.json");
+        DynamicCommandHandler dynamicCommandHandler = new DynamicCommandHandler(commandFile, this);
+
+        registerCommands(
+                new Derp(proxy, derpHandler),
+                new Derps(derpHandler),
+                new FoodFight(),
+                new Reload(derpHandler, dynamicCommandHandler),
+                new Rename(),
+                new Slap(),
+                new Version(pluginDescription.getVersion())
+        );
 
         proxy.getPluginManager().registerListener(this, new ChannelListener());
         proxy.registerChannel(channel);
 
-        // also TODO: get load/unload/reload functionality into one place
-        DerpHandler.loadDerps();
-
         try {
-            DynamicCommandHandler.readCommands();
-            DynamicCommandHandler.registerCommands(this);
-        } catch (Exception e) {
-            // TODO
+            derpHandler.loadDerps();
+            dynamicCommandHandler.loadCommands();
+        } catch (LoadException e) {
+            // TODO maybe something better
+            // there is still a bit of duplication here and in Reload
             e.printStackTrace();
+        }
+    }
+
+    private void registerCommands(Command... commands) {
+        for (Command command : commands) {
+            proxy.getPluginManager().registerCommand(this, command);
         }
     }
 

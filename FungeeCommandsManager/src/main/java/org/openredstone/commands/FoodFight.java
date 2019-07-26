@@ -4,19 +4,20 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.plugin.Command;
 import org.openredstone.FungeeCommandsManager;
 import org.openredstone.messages.ActionMessage;
 import org.openredstone.messaging.MessageProxyDispatcher;
 import org.openredstone.types.Action;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
-public class FoodFight extends Command {
+import static java.util.stream.Collectors.joining;
 
-    private Random rand = new Random();
-
-    private String[] foods = {
+public class FoodFight extends FunCommand {
+    private final Random rand = new Random();
+    private final List<String> foods = Arrays.asList(
             "APPLE",
             "BAKED_POTATO",
             "BEEF",
@@ -50,41 +51,38 @@ public class FoodFight extends Command {
             "RABBIT_STEW",
             "SALMON",
             "TROPICAL_FISH"
-    };
+    );
 
     public FoodFight() {
         super("foodfight");
     }
 
     @Override
-    public void execute(CommandSender commandSender, String[] strings) {
-
-        if(!commandSender.hasPermission(FungeeCommandsManager.rootPermission + "." + this.getClass().getSimpleName())){
-            commandSender.sendMessage(FungeeCommandsManager.noPermissions);
-            return;
-        }
-
+    public void execute(CommandSender sender, String[] args) {
         ProxiedPlayer victim;
 
-        try{
-            victim = FungeeCommandsManager.getPlayer(strings[0]);
-        }catch(Exception e){
-            commandSender.sendMessage(new ComponentBuilder("No such player.").color(ChatColor.RED).create());
+        try {
+            victim = FungeeCommandsManager.getPlayer(args[0]);
+        } catch (Exception e) {
+            sender.sendMessage(new ComponentBuilder("No such player.").color(ChatColor.RED).create());
             return;
         }
 
         String victimName = victim.getDisplayName();
         String food;
 
-        if ((strings.length > 1) && (isValidFood(strings[1]))) {
-            food = strings[1];
+        if ((args.length > 1) && (isValidFood(args[1]))) {
+            food = args[1];
         } else {
             food = getRandomFood();
         }
 
-        ComponentBuilder foodComponent = new ComponentBuilder(((ProxiedPlayer) commandSender).getDisplayName()).color(ChatColor.DARK_PURPLE)
-                .append(" threw a" + (getPrettyPrint(food).matches("^[AEIOU].*") ? "n " : " ")).color(ChatColor.YELLOW)
-                .append(getPrettyPrint(food)).color(ChatColor.GOLD)
+        String senderName = ((ProxiedPlayer) sender).getDisplayName();
+        String prettyFood = prettifyFood(food);
+
+        ComponentBuilder foodComponent = new ComponentBuilder(senderName).color(ChatColor.DARK_PURPLE)
+                .append(" threw a" + (prettyFood.matches("^[AEIOU].*") ? "n " : " ")).color(ChatColor.YELLOW)
+                .append(prettyFood).color(ChatColor.GOLD)
                 .append(" at ").color(ChatColor.RED)
                 .append(victimName).color(ChatColor.DARK_PURPLE)
                 .append(".").color(ChatColor.YELLOW);
@@ -95,7 +93,7 @@ public class FoodFight extends Command {
                 FungeeCommandsManager.proxy,
                 FungeeCommandsManager.channel,
                 FungeeCommandsManager.subChannel,
-                (ProxiedPlayer) commandSender,
+                (ProxiedPlayer) sender,
                 itemActionMessage);
 
         if (rand.nextInt(5) == 0) {
@@ -108,52 +106,36 @@ public class FoodFight extends Command {
                     FungeeCommandsManager.proxy,
                     FungeeCommandsManager.channel,
                     FungeeCommandsManager.subChannel,
-                    (ProxiedPlayer) commandSender,
+                    (ProxiedPlayer) sender,
                     blindnessActionMessage);
             MessageProxyDispatcher.sendMessage(
                     FungeeCommandsManager.proxy,
                     FungeeCommandsManager.channel,
                     FungeeCommandsManager.subChannel,
-                    (ProxiedPlayer) commandSender,
+                    (ProxiedPlayer) sender,
                     confusionActionMessage);
 
         }
 
         FungeeCommandsManager.plugin.getProxy().broadcast(foodComponent.create());
-
     }
 
     private boolean isValidFood(String food) {
-        for (String availableFood : foods) {
-            if (availableFood.equals(food)) {
-                return true;
-            }
-        }
-        return false;
+        return foods.contains(food);
     }
 
     private String getRandomFood() {
-        return foods[rand.nextInt(foods.length-1)];
+        return foods.get(rand.nextInt(foods.size()));
     }
 
-    private String getPrettyPrint(String food) {
-        StringBuilder pretty = new StringBuilder();
+    private String prettifyFood(String food) {
+        String[] words = food.split("_");
+        return Arrays.stream(words)
+                .map(FoodFight::capitalizeWord)
+                .collect(joining(" "));
+    }
 
-        Character prevChar = " ".charAt(0);
-        for (int i = 0; i < food.length(); i++) {
-            Character c = food.charAt(i);
-            if (Character.isAlphabetic(c) && prevChar.equals(" ".charAt(0))) {
-                pretty.append(c);
-                prevChar = c;
-            } else if (Character.isAlphabetic(c)) {
-                pretty.append(Character.toLowerCase(c));
-                prevChar = Character.toLowerCase(c);
-            } else {
-                pretty.append(" ");
-                prevChar = " ".charAt(0);
-            }
-        }
-
-        return pretty.toString();
+    private static String capitalizeWord(String word) {
+        return Character.toUpperCase(word.charAt(0)) + word.substring(1).toLowerCase();
     }
 }

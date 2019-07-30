@@ -19,9 +19,7 @@ public class Slap extends FunCommand {
 
         ProxiedPlayer victim;
 
-        try {
-            victim = FungeeCommandsManager.getPlayer(args[0]);
-        } catch(Exception e) {
+        if ((victim = FungeeCommandsManager.getPlayer(args[0])) == null) {
             sender.sendMessage(new ComponentBuilder("No such player.").color(ChatColor.RED).create());
             return;
         }

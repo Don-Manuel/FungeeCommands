@@ -61,9 +61,7 @@ public class FoodFight extends FunCommand {
     public void execute(CommandSender sender, String[] args) {
         ProxiedPlayer victim;
 
-        try {
-            victim = FungeeCommandsManager.getPlayer(args[0]);
-        } catch (Exception e) {
+        if ((victim = FungeeCommandsManager.getPlayer(args[0])) == null) {
             sender.sendMessage(new ComponentBuilder("No such player.").color(ChatColor.RED).create());
             return;
         }

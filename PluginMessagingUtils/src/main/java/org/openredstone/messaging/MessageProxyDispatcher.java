@@ -15,11 +15,7 @@ public class MessageProxyDispatcher extends ProxyDispatcher {
         return true;
     }
     private static boolean targetPlayerExists(ProxyServer proxyServer, UUID uuid) {
-        for (ProxiedPlayer proxiedPlayer : proxyServer.getPlayers()) {
-            if (proxiedPlayer.getUniqueId().equals(uuid)) {
-                return true;
-            }
-        }
-        return false;
+        return proxyServer.getPlayers().stream()
+                .anyMatch(player -> player.getUniqueId().equals(uuid));
     }
 }

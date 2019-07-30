@@ -12,6 +12,7 @@ import org.openredstone.handlers.LoadException;
 import org.openredstone.listeners.ChannelListener;
 
 import java.io.File;
+import java.util.Arrays;
 
 public class FungeeCommandsManager extends Plugin {
     public static final String channel = "fun:commands";
@@ -61,18 +62,12 @@ public class FungeeCommandsManager extends Plugin {
     }
 
     private void registerCommands(Command... commands) {
-        for (Command command : commands) {
-            proxy.getPluginManager().registerCommand(this, command);
-        }
+        Arrays.stream(commands)
+                .forEach(command -> proxy.getPluginManager().registerCommand(this, command));
     }
 
-    public static ProxiedPlayer getPlayer(String name) throws Exception {
-        for (ProxiedPlayer proxiedPlayer : proxy.getPlayers()) {
-            if (proxiedPlayer.getDisplayName().equals(name)) {
-                return proxiedPlayer;
-            }
-        }
-        throw new Exception("NoPlayerFound");
+    public static ProxiedPlayer getPlayer(String name) {
+        return proxy.getPlayer(name);
     }
 
 }

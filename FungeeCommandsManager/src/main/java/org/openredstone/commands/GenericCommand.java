@@ -18,12 +18,13 @@ public class GenericCommand extends Command {
 
     public GenericCommand(
             String command,
+            String permission,
             String description,
             String globalMessage,
             String localMessage,
             String toRun
     ) {
-        super(command, FungeeCommandsManager.permissionFor(command));
+        super(command, permission);
         this.description = description;
         this.globalMessage = globalMessage;
         this.localMessage = localMessage;

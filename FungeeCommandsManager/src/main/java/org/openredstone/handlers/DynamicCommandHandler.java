@@ -6,6 +6,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.openredstone.FungeeCommandsManager;
 import org.openredstone.commands.GenericCommand;
 
 import java.io.File;
@@ -51,6 +52,7 @@ public class DynamicCommandHandler {
             String name = (String) cmd.get("command");
             registerCommand(new GenericCommand(
                     name,
+                    FungeeCommandsManager.permissionFor("jsoncommand." + name),
                     (String) cmd.get("description"),
                     (String) cmd.getOrDefault("globalChat", null),
                     (String) cmd.getOrDefault("localChat", null),

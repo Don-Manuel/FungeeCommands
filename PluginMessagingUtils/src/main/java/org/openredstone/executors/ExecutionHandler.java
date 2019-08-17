@@ -1,5 +1,6 @@
 package org.openredstone.executors;
 
+import org.bukkit.GameMode;
 import org.bukkit.plugin.Plugin;
 import org.openredstone.messages.ActionMessage;
 
@@ -18,6 +19,11 @@ public class ExecutionHandler {
     }
 
     public void execute(ActionMessage actionMessage) throws Exception {
+
+        if (plugin.getServer().getPlayer(actionMessage.getUuid()).getGameMode().equals(GameMode.SURVIVAL)) {
+            return;
+        }
+
         switch (actionMessage.getAction()) {
             case KILL:
                 killExecutor.execute(actionMessage);

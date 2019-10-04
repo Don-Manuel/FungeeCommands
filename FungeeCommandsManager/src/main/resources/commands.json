@@ -166,6 +166,17 @@
     "command": "shrug",
     "description": "lol idk",
     "globalChat": "&c<name> &e<arg-all> &6¯\\_(ツ)_/¯"
+  },
+  {
+   "command": "redcmd",
+   "description": "intal gento",
+   "globalChat": "&cHello allo"
+  },
+  {
+   "command": "lag",
+   "description": "got lag?",
+   "globalChat": "&c<name> &6thought there was some &4&llag&6...",
+   "run": "kick <name> That should fix it!"
   }
 ]
 

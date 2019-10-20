@@ -77,6 +77,11 @@
     "globalChat": "&d<name> &5haphaphap'd"
   },
   {
+    "command": "nou",
+    "description": "nou people",
+    "globalChat:" "&d<name> &4&lnou'd &d<arg-all>"
+  },
+  {
     "command": "hate",
     "description": "-",
     "globalChat": "&a<name> &2&lhates &a<arg-all>"

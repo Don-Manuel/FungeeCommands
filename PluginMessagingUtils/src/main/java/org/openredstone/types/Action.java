@@ -5,5 +5,6 @@ public enum Action {
     EXECUTE,
     ADD_POTION_EFFECT,
     ADD_ITEM_TO_INVENTORY,
-    RENAME_ITEM
+    RENAME_ITEM,
+    MILK
 }

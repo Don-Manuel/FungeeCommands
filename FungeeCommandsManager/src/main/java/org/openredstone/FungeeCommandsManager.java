@@ -45,6 +45,7 @@ public class FungeeCommandsManager extends Plugin {
                 new Reload(derpHandler, dynamicCommandHandler),
                 new Rename(),
                 new Slap(),
+                new Milk(),
                 new Version(pluginDescription.getVersion())
         );
 

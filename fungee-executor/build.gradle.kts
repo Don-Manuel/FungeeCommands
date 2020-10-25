@@ -15,7 +15,7 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":plugin-messaging"))
+    implementation(project(":fungee-messages"))
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.0.0")
     compileOnly(group = "org.spigotmc", name = "spigot-api", version = "1.16.1-R0.1-SNAPSHOT")
 }

@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":plugin-messaging"))
+    implementation(project(":fungee-messages"))
     implementation("com.googlecode.json-simple:json-simple:1.1.1")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.0.0")
     compileOnly(group = "net.md-5", name = "bungeecord-api", version = "1.16-R0.4-SNAPSHOT")

@@ -1,6 +1,6 @@
 plugins {
-    kotlin("jvm") version "1.4.10"
-    id("com.github.johnrengelman.shadow") version "2.0.4"
+    kotlin("jvm")
+    id("com.github.johnrengelman.shadow")
 }
 
 group = "org.openredstone"
@@ -16,8 +16,6 @@ repositories {
 
 dependencies {
     implementation(project(":plugin-messaging"))
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.0.0")
     compileOnly(group = "org.spigotmc", name = "spigot-api", version = "1.16.1-R0.1-SNAPSHOT")
 }
-
-
-

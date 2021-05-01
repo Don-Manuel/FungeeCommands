@@ -2,22 +2,16 @@ package org.openredstone.fungee.manager.commands
 
 import net.md_5.bungee.api.CommandSender
 import net.md_5.bungee.api.chat.TextComponent
-import org.openredstone.fungee.manager.FungeeCommandsManager
+import net.md_5.bungee.api.plugin.Command
 import org.openredstone.fungee.manager.handlers.DerpHandler
 
-class Derps(plugin: FungeeCommandsManager, private val handler: DerpHandler) : FunCommand(plugin, "derps") {
+class Derps(private val handler: DerpHandler) : Command("derps", "funcommands.derps") {
     override fun execute(
         sender: CommandSender,
         args: Array<String>
     ) {
-        (0 until handler.derpCount())
-            .map(this::createDerpLine)
+        handler.derps
+            .mapIndexed { index, derp -> TextComponent("$index. $derp") }
             .forEach(sender::sendMessage)
     }
-
-    private fun createDerpLine(derpIndex: Int): TextComponent =
-        TextComponent(
-            derpIndex.toString() + ". " + handler.derpByIndex(derpIndex)
-        )
-
 }

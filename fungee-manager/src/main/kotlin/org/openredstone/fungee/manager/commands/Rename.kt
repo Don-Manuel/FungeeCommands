@@ -2,11 +2,11 @@ package org.openredstone.fungee.manager.commands
 
 import net.md_5.bungee.api.CommandSender
 import net.md_5.bungee.api.connection.ProxiedPlayer
-import org.openredstone.fungee.manager.FungeeCommandsManager
+import net.md_5.bungee.api.plugin.Command
 import org.openredstone.fungee.manager.dispatch
 import org.openredstone.fungee.messages.Action
 
-class Rename(plugin: FungeeCommandsManager) : FunCommand(plugin, "rename") {
+class Rename : Command("rename", "funcommands.rename") {
     override fun execute(
         sender: CommandSender,
         args: Array<String>

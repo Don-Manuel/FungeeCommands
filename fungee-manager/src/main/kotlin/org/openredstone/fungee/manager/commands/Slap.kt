@@ -4,9 +4,10 @@ import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.CommandSender
 import net.md_5.bungee.api.chat.ComponentBuilder
 import net.md_5.bungee.api.connection.ProxiedPlayer
+import net.md_5.bungee.api.plugin.Command
 import org.openredstone.fungee.manager.FungeeCommandsManager
 
-class Slap(private val plugin: FungeeCommandsManager) : FunCommand(plugin, "slap") {
+class Slap(private val plugin: FungeeCommandsManager) : Command("slap", "funcommands.slap") {
     override fun execute(
         sender: CommandSender,
         args: Array<String>
@@ -16,19 +17,17 @@ class Slap(private val plugin: FungeeCommandsManager) : FunCommand(plugin, "slap
                 *ComponentBuilder("You must specify who you are slapping.")
                     .color(ChatColor.RED).create()
             )
+            return
         }
-        val victim: ProxiedPlayer = plugin.getPlayer(args[0]) ?: run {
+        val victim = plugin.getPlayer(args[0]) ?: run {
             sender.sendMessage(
                 *ComponentBuilder("No such player.").color(ChatColor.RED)
                     .create()
             )
             return
         }
-        val slap = "large trout"
-        var victimName = victim.name
-        if (victim == sender) {
-            victimName = "themselves"
-        }
+        val slap = args.getOrNull(1) ?: "large trout"
+        val victimName = victim.name.takeIf { victim != sender } ?: "themselves"
         plugin.proxy.broadcast(
             *ComponentBuilder(sender.name)
                 .color(ChatColor.DARK_PURPLE)

@@ -24,20 +24,10 @@ class GenericCommand(
     ) {
         try {
             if (globalMessage != null) {
-                plugin.proxy.broadcast(
-                    *ComponentBuilder(
-                        formatMessage(
-                            globalMessage,
-                            args,
-                            sender
-                        )
-                    ).create()
-                )
+                plugin.proxy.broadcast(*ComponentBuilder(formatMessage(globalMessage, args, sender)).create())
             }
             if (localMessage != null) {
-                sender.sendMessage(
-                    *ComponentBuilder(formatMessage(localMessage, args, sender)).create()
-                )
+                sender.sendMessage(*ComponentBuilder(formatMessage(localMessage, args, sender)).create())
             }
             if (toRun != null) {
                 val player = sender as? ProxiedPlayer ?: return
@@ -53,42 +43,38 @@ class GenericCommand(
             )
         }
     }
+}
 
-    private fun formatMessage(
-        rawText: String,
-        args: Array<String>,
-        sender: CommandSender
-    ): String {
-        var text = rawText
-        if (sender is ProxiedPlayer) {
-            text = text
-                .replace("<uuid>", sender.uniqueId.toString())
-        } else require(toRun == null)
+private fun formatMessage(
+    rawText: String,
+    args: Array<String>,
+    sender: CommandSender
+): String {
+    var text = rawText
+    if (sender is ProxiedPlayer) {
         text = text
-            .replace("<name>", sender.name)
-            .replace("<arg-all>", java.lang.String.join(" ", *args))
-        text = text.formatArgs(args)
-        text = ChatColor.translateAlternateColorCodes('&', text)
-        return text
+            .replace("<uuid>", sender.uniqueId.toString())
     }
+    return text
+        .replace("<name>", sender.name)
+        .replace("<arg-all>", args.joinToString(separator = " "))
+        .formatArgs(args)
+        .let { ChatColor.translateAlternateColorCodes('&', it) }
+}
 
-    companion object {
-        private fun String.formatArgs(args: Array<String>): String {
-            var text = this
-            for (i in 0..9) {
-                val placeholder = "$$i"
-                if (!text.contains(placeholder)) {
-                    // no checking for too many arguments currently
-                    break
-                }
-                require(i < args.size) {
-                    // TODO
-                    "not enough arguments"
-                }
-                text = text.replace(placeholder, args[i])
-            }
-            return text
+private fun String.formatArgs(args: Array<String>): String {
+    var text = this
+    for (i in 0..9) {
+        val placeholder = "$$i"
+        if (placeholder !in text) {
+            // no checking for too many arguments currently
+            break
         }
+        require(i < args.size) {
+            // TODO
+            "not enough arguments"
+        }
+        text = text.replace(placeholder, args[i])
     }
-
+    return text
 }

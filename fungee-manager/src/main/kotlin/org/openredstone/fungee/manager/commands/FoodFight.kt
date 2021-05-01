@@ -4,12 +4,13 @@ import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.CommandSender
 import net.md_5.bungee.api.chat.ComponentBuilder
 import net.md_5.bungee.api.connection.ProxiedPlayer
+import net.md_5.bungee.api.plugin.Command
 import org.openredstone.fungee.manager.FungeeCommandsManager
 import org.openredstone.fungee.manager.dispatch
 import org.openredstone.fungee.messages.Action
 import java.util.*
 
-class FoodFight(private val plugin: FungeeCommandsManager) : FunCommand(plugin, "foodfight") {
+class FoodFight(private val plugin: FungeeCommandsManager) : Command("foodfight", "funcommands.foodfight") {
     private val rand = Random()
     private val foods = listOf(
         "APPLE",
@@ -51,7 +52,7 @@ class FoodFight(private val plugin: FungeeCommandsManager) : FunCommand(plugin, 
         sender: CommandSender,
         args: Array<String>
     ) {
-        val victim: ProxiedPlayer = plugin.getPlayer(args[0]) ?: run {
+        val victim = plugin.getPlayer(args[0]) ?: run {
             sender.sendMessage(
                 *ComponentBuilder("No such player.").color(ChatColor.RED)
                     .create()
@@ -59,11 +60,7 @@ class FoodFight(private val plugin: FungeeCommandsManager) : FunCommand(plugin, 
             return
         }
         val victimName = victim.displayName
-        val food = if (args.size > 1 && isValidFood(args[1])) {
-            args[1]
-        } else {
-            foods.random()
-        }
+        val food = args.getOrNull(1)?.takeIf { it in foods } ?: foods.random()
         val senderName = (sender as ProxiedPlayer).displayName
         val prettyFood = prettifyFood(food)
         val foodComponent =
@@ -83,11 +80,9 @@ class FoodFight(private val plugin: FungeeCommandsManager) : FunCommand(plugin, 
         plugin.proxy.broadcast(*foodComponent.create())
     }
 
-    private fun isValidFood(food: String): Boolean = foods.contains(food)
-
     private fun prettifyFood(food: String): String =
         food.split("_").joinToString(separator = " ", transform = this::capitalizeWord)
 
     private fun capitalizeWord(word: String): String =
-        Character.toUpperCase(word[0]).toString() + word.substring(1).toLowerCase()
+        word[0].toUpperCase().toString() + word.substring(1).toLowerCase()
 }

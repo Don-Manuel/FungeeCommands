@@ -4,64 +4,46 @@ import net.md_5.bungee.api.plugin.PluginManager
 import org.json.simple.JSONArray
 import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
-import org.json.simple.parser.ParseException
 import org.openredstone.fungee.manager.FungeeCommandsManager
 import org.openredstone.fungee.manager.commands.GenericCommand
 import java.io.File
-import java.io.FileReader
-import java.io.IOException
-import java.util.*
-import java.util.function.Consumer
 
 class DynamicCommandHandler(private val commandFile: File, private val plugin: FungeeCommandsManager) {
     private val pluginManager: PluginManager = plugin.proxy.pluginManager
-    private val registeredCommands = ArrayList<GenericCommand>()
+    private val registeredCommands = mutableListOf<GenericCommand>()
 
-    // the exception handling here is still a bit weird
     fun loadCommands() {
         unregisterCommands()
         try {
             registerCommands()
-        } catch (e: LoadException) {
-            val message = ("Failed to load all commands from " + commandFile
-                + ". (" + registeredCommands.size + " commands were loaded)")
-            throw LoadException(message, e)
-        } catch (e: ClassCastException) {
-            val message = ("Failed to load all commands from " + commandFile
-                + ". (" + registeredCommands.size + " commands were loaded)")
-            throw LoadException(message, e)
+        } catch (e: Exception) {
+            throw LoadException(
+                "Failed to load all commands from $commandFile. (${registeredCommands.size} commands were loaded)",
+                e
+            )
         }
     }
 
     private fun registerCommands() {
-        for (commandObj in readJSONCommands(commandFile)) {
-            require(commandObj is JSONObject) { "commands should be JSON objects" }
-            val cmd = commandObj
-
-            // TODO: these casts are unsafe
-            // and the whole thing is ugly
-            // primitive obsession?
-            val name = cmd["command"] as String?
-            registerCommand(
+        readJSONCommands(commandFile)
+            .map { it as? JSONObject ?: throw IllegalArgumentException("commands should be JSON objects") }
+            .map {
+                val name = it["command"] as String
                 GenericCommand(
                     plugin,
                     name,
-                    plugin.permissionFor("jsoncommand.$name"),
-                    (cmd["description"] as String?)!!,
-                    cmd.getOrDefault("globalChat", null) as String?,
-                    cmd.getOrDefault("localChat", null) as String?,
-                    cmd.getOrDefault("run", null) as String?
+                    "funcommands.jsoncommand.$name",
+                    it["description"] as String,
+                    it["globalChat"] as String?,
+                    it["localChat"] as String?,
+                    it["run"] as String?,
                 )
-            )
-        }
+            }
+            .forEach(::registerCommand)
     }
 
     private fun unregisterCommands() {
-        registeredCommands.forEach(Consumer { command: GenericCommand? ->
-            pluginManager.unregisterCommand(
-                command
-            )
-        })
+        registeredCommands.forEach(pluginManager::unregisterCommand)
         registeredCommands.clear()
     }
 
@@ -73,16 +55,7 @@ class DynamicCommandHandler(private val commandFile: File, private val plugin: F
         registeredCommands.add(command)
     }
 
-    private fun readJSONCommands(file: File): JSONArray {
-        try {
-            FileReader(file).use { reader ->
-                return JSONParser().parse(reader) as? JSONArray
-                    ?: throw LoadException("Command file should contain an array of commands")
-            }
-        } catch (e: ParseException) {
-            throw LoadException(e)
-        } catch (e: IOException) {
-            throw LoadException(e)
-        }
-    }
+    private fun readJSONCommands(file: File): JSONArray =
+        JSONParser().parse(file.readText()) as? JSONArray
+            ?: throw LoadException("Command file should contain an array of commands")
 }

@@ -3,12 +3,14 @@ package org.openredstone.fungee.manager.commands
 import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.CommandSender
 import net.md_5.bungee.api.chat.ComponentBuilder
-import org.openredstone.fungee.manager.FungeeCommandsManager
+import net.md_5.bungee.api.plugin.Command
 import org.openredstone.fungee.manager.handlers.DerpHandler
 import org.openredstone.fungee.manager.handlers.DynamicCommandHandler
 import org.openredstone.fungee.manager.handlers.LoadException
 
-class Reload(plugin: FungeeCommandsManager, private val derpHandler: DerpHandler, private val dch: DynamicCommandHandler) : FunCommand(plugin, "funreload") {
+class Reload(private val derpHandler: DerpHandler, private val dch: DynamicCommandHandler) : Command(
+    "funreload", "funcommands.funreload"
+) {
     override fun execute(
         commandSender: CommandSender,
         strings: Array<String>

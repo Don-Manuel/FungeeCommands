@@ -19,16 +19,16 @@ class FungeeCommandsManager : Plugin() {
         val derpHandler = DerpHandler(File(pluginFolder, "derps.txt"))
         val commandFile = File(pluginFolder, "commands.json")
         val dynamicCommandHandler = DynamicCommandHandler(commandFile, this)
-        registerCommands(
-            Derp(this, proxy, derpHandler),
-            Derps(this, derpHandler),
+        arrayOf(
+            Derp(proxy, derpHandler),
+            Derps(derpHandler),
             FoodFight(this),
-            Reload(this, derpHandler, dynamicCommandHandler),
-            Rename(this),
+            Reload(derpHandler, dynamicCommandHandler),
+            Rename(),
             Slap(this),
-            Milk(this),
+            Milk(),
             Version(this, pluginDescription.version)
-        )
+        ).forEach { proxy.pluginManager.registerCommand(this, it) }
         // manager -> executor
         proxy.registerChannel(FUNGEE_DISPATCH_CHANNEL)
         // executor -> manager
@@ -44,13 +44,5 @@ class FungeeCommandsManager : Plugin() {
         }
     }
 
-    private fun registerCommands(vararg commands: Command) {
-        commands.forEach { proxy.pluginManager.registerCommand(this, it) }
-    }
-
-    fun permissionFor(name: String): String = "funcommands.$name"
-
-    fun getPlayer(name: String?): ProxiedPlayer? {
-        return proxy.getPlayer(name)
-    }
+    fun getPlayer(name: String?): ProxiedPlayer? = proxy.getPlayer(name)
 }

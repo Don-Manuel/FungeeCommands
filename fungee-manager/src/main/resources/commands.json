@@ -1,6 +1,11 @@
 
 [
   {
+    "command": "meow",
+    "description": "Meows like a cat",
+    "globalChat": "&e<name>&f Meows like a cat"
+  },
+  {
     "command": "love",
     "description": "D'awww",
     "globalChat": "&d<name> &c&l<3 &d<arg-all>"
